@@ -1,0 +1,176 @@
+// Mapping of cell references to type scored and font color
+const typeScoredMapping = {
+  "F9": ["K", "blue"],
+  "F10": ["KT", "blue"],
+  "F11": ["B", "blue"],
+  "F12": ["I", "blue"],
+  "F13": ["O", "blue"],
+  "F14": ["D", "blue"],
+  "K9": ["SE", "red"],
+  "K10": ["STE", "red"],
+  "K11": ["C", "red"],
+  "K12": ["HE", "red"],
+  "K13": ["BE", "red"],
+  "K14": ["BH", "red"],
+  "K15": ["O", "red"],
+  "K16": ["I", "red"],
+  "K17": ["RE", "red"],
+  "K18": ["N", "red"]
+};
+
+// Function to handle UNISScored event
+function UNISScored() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var activeCell = sheet.getActiveCell();
+  sheet.getRange("B6").setValue(1); // Set B6 cell to 1
+  sheet.getRange("B7").setValue(0); // Set B7 cell to 0
+  activeCell.setValue(false); // Reset the active cell value
+}
+
+// Function to handle OpponentScored event
+function OpponentScored() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var activeCell = sheet.getActiveCell();
+  sheet.getRange("B6").setValue(0); // Set B6 cell to 0
+  sheet.getRange("B7").setValue(1); // Set B7 cell to 1
+  activeCell.setValue(false); // Reset the active cell value
+}
+
+// Function to set the type score based on cell reference
+function setTypeScore(cellReference) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var activeCell = sheet.getActiveCell();
+  var cellReference = activeCell.getA1Notation();
+  sheet.getRange("B8").setValue(typeScoredMapping[cellReference][0]); // Set B8 cell value to type scored
+  sheet.getRange("B8").setFontColor(typeScoredMapping[cellReference][1]); // Set B8 cell font color
+  activeCell.setValue(false); // Reset the active cell value
+}
+
+// onEdit function will trigger when any cell on the sheet is edited
+function onEdit(){
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var activeCell = sheet.getActiveCell();
+  var cellReference = activeCell.getA1Notation();
+  var cellValue = activeCell.getValue();
+
+  // Check if edited cell is G4 and its value is true, then call UNISScored()
+  if (cellReference == "G4" && sheet.getName() == "InputSheet" && cellValue == true) {
+    UNISScored();
+  }
+
+  // Check if edited cell is K4 and its value is true, then call OpponentScored()
+  if (cellReference == "K4" && sheet.getName() == "InputSheet" && cellValue == true) {
+    OpponentScored();
+  }
+
+  // Check if edited cell is in typeScoredMapping and its value is true, then call setTypeScore()
+  if (cellReference in typeScoredMapping && sheet.getName() == "InputSheet" && cellValue == true) {
+    setTypeScore();
+  }
+
+  // Check the value of C19 to C23 cells and call the respective function if C13 cell is edited to true
+  // Please note that C19 to C23 should have boolean values (true or false)
+  if (sheet.getRange("C19").getValue() == true && cellReference == "C13" && cellValue == true) {
+    appendDataLogSet1();
+    activeCell.setValue(false);
+  } 
+  else if (sheet.getRange("C20").getValue() == true && cellReference == "C13" && cellValue == true) {
+    appendDataLogSet2();
+    activeCell.setValue(false);
+  }
+  else if (sheet.getRange("C21").getValue() == true && cellReference == "C13" && cellValue == true) {
+    appendDataLogSet3();
+    activeCell.setValue(false);
+  }
+  else if (sheet.getRange("C22").getValue() == true && cellReference == "C13" && cellValue == true) {
+    appendDataLogSet4();
+    activeCell.setValue(false);
+  }
+  else if (sheet.getRange("C23").getValue() == true && cellReference == "C13" && cellValue == true) {
+    appendDataLogSet5();
+    activeCell.setValue(false);
+  }
+}
+
+// Function to append data```javascript
+// Function to append data to "DataLogSet1" sheet
+function appendDataLogSet1(){
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var activeCell = sheet.getActiveCell();
+
+  const sourceRange = ss.getRangeByName("InputData"); // Get range named "InputData"
+  const sourceVals = sourceRange.getValues().flat();  // Get values from the range and convert to 1D array
+  
+  data = [...sourceVals] // Copy the values to data variable
+
+  const destinationSheet = ss.getSheetByName("DataLogSet1") // Get "DataLogSet1" sheet
+  destinationSheet.appendRow(data); // Append data to the sheet
+
+  sourceRange.clearContent() // Clear the content of the source range
+}
+
+// Similar functions for "DataLogSet2" to "DataLogSet5" sheets
+function appendDataLogSet2(){
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var activeCell = sheet.getActiveCell();
+
+  const sourceRange = ss.getRangeByName("InputData");
+  const sourceVals = sourceRange.getValues().flat();
+  
+  data = [...sourceVals]
+
+  const destinationSheet = ss.getSheetByName("DataLogSet2")
+  destinationSheet.appendRow(data);
+
+  sourceRange.clearContent()
+}
+
+function appendDataLogSet3(){
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var activeCell = sheet.getActiveCell();
+
+  const sourceRange = ss.getRangeByName("InputData");
+  const sourceVals = sourceRange.getValues().flat();
+  
+  data = [...sourceVals]
+
+  const destinationSheet = ss.getSheetByName("DataLogSet3")
+  destinationSheet.appendRow(data);
+
+  sourceRange.clearContent()
+}
+
+function appendDataLogSet4(){
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var activeCell = sheet.getActiveCell();
+
+  const sourceRange = ss.getRangeByName("InputData");
+  const sourceVals = sourceRange.getValues().flat();
+  
+  data = [...sourceVals]
+
+  const destinationSheet = ss.getSheetByName("DataLogSet4")
+  destinationSheet.appendRow(data);
+
+  sourceRange.clearContent()
+}
+
+function appendDataLogSet5(){
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var activeCell = sheet.getActiveCell();
+
+  const sourceRange = ss.getRangeByName("InputData");
+  const sourceVals = sourceRange.getValues().flat();
+  
+  data = [...sourceVals]
+
+  const destinationSheet = ss.getSheetByName("DataLogSet5")
+  destinationSheet.appendRow(data);
+
+  sourceRange.clearContent()
+}
