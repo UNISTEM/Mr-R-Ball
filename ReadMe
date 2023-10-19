@@ -1,0 +1,30 @@
+# Google Apps Script for Spreadsheet Automation
+
+This Google Apps Script is designed to automate certain actions within a Google Spreadsheet based on specific cell edits. It's ideal for tracking scores or other data types that correspond to specific cell updates.
+
+## Functionality
+
+The script contains several functions, each of which is triggered by certain cell edits:
+
+1. `UNISScored()`: Triggered when cell G4 is edited to `true`. It sets the value of cell B6 to 1, B7 to 0, and resets the active cell value to `false`.
+
+2. `OpponentScored()`: Triggered when cell K4 is edited to `true`. It sets the value of cell B6 to 0, B7 to 1, and resets the active cell value to `false`.
+
+3. `setTypeScore()`: Triggered when a cell listed in the `typeScoredMapping` object is edited to `true`. It sets the value and font color of cell B8 according to the `typeScoredMapping` object, and resets the active cell value to `false`.
+
+4. `appendDataLogSetX()`: These functions (where X ranges from 1 to 5) append the data from the `InputData` named range to the respective `DataLogSetX` sheet and clear the `InputData` range. They are run when cell C13 is edited to `true` and one of the cells from C19 to C23 is `true`.
+
+## Setup
+
+1. Open your Google Spreadsheet.
+2. Click on `Extensions` in the menu, then select `Apps Script`.
+3. In the Apps Script editor, copy and paste this script.
+4. Click on the disk icon or select `File -> Save` to save your script.
+
+## Usage
+
+Once the script is saved, it will run automatically each time a specified cell is edited. The script checks if certain cells are edited to `true` and runs the corresponding function if so.
+
+## Note
+
+Please ensure to replace `"InputSheet"` with the actual name of your sheet, if different. The `onEdit()` trigger function will only activate when a user manually changes a cell's value; it will not run if a cell's value changes due to a formula or script. Also, ensure that the `data` variable is defined in your script.
